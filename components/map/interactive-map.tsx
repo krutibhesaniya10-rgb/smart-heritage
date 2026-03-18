@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 import Image from "next/image"
 import Link from "next/link"
-import { Search as SearchIcon, MapPin, Navigation, List, Map as MapIcon, Compass, Share2, Ticket, Star, ChevronRight, Menu, X, Route, Filter, Eye, Activity, Camera, LocateFixed, Clock } from "lucide-react"
+import { Search as SearchIcon, MapPin, Navigation, List, Map as MapIcon, Compass, Share2, Ticket, Star, ChevronRight, Menu, X, Route, Filter, Eye, Activity, Camera, LocateFixed, Clock, Globe as GlobeIcon } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import dynamic from "next/dynamic"
@@ -15,6 +15,15 @@ const LeafletMap = dynamic(() => import('./leaflet-map-content'), {
   loading: () => (
     <div className="w-full h-full flex items-center justify-center bg-gray-100 animate-pulse">
       <div className="w-10 h-10 border-4 border-primary rounded-full border-t-transparent animate-spin"></div>
+    </div>
+  )
+})
+
+const GlobeMap = dynamic(() => import('./globe-map-content'), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full flex items-center justify-center bg-[#020617] animate-pulse">
+      <div className="w-10 h-10 border-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
     </div>
   )
 })
@@ -101,6 +110,7 @@ export default function InteractiveMap() {
   const [activeCategory, setActiveCategory] = useState("All")
   const [searchQuery, setSearchQuery] = useState("")
   const [viewMode, setViewMode] = useState<"map" | "list">("map")
+  const [mapMode, setMapMode] = useState<"2d" | "3d">("3d")
   const [userLocation, setUserLocation] = useState<{ lat: number, lng: number } | null>(null)
   const [mapCenter, setMapCenter] = useState({ lat: 23.5, lng: 73.5 })
   const [mapZoom, setMapZoom] = useState(6)
@@ -274,15 +284,43 @@ export default function InteractiveMap() {
 
       {/* ── Map Area ── */}
       <div className={`flex-1 relative ${viewMode === "list" ? "hidden lg:block" : ""}`}>
-        <LeafletMap
-          sites={filteredSites}
-          selectedSite={selectedSite}
-          userLocation={userLocation}
-          nearbyPlaces={nearbyPlaces}
-          onSiteSelect={site => { setSelectedSite(site); setMapCenter(site.position) }}
-          center={mapCenter}
-          zoom={mapZoom}
-        />
+        {mapMode === "3d" ? (
+          <GlobeMap
+            sites={filteredSites}
+            selectedSite={selectedSite}
+            userLocation={userLocation}
+            nearbyPlaces={nearbyPlaces}
+            onSiteSelect={site => { setSelectedSite(site); setMapCenter(site.position) }}
+            center={mapCenter}
+            zoom={mapZoom}
+          />
+        ) : (
+          <LeafletMap
+            sites={filteredSites}
+            selectedSite={selectedSite}
+            userLocation={userLocation}
+            nearbyPlaces={nearbyPlaces}
+            onSiteSelect={site => { setSelectedSite(site); setMapCenter(site.position) }}
+            center={mapCenter}
+            zoom={mapZoom}
+          />
+        )}
+
+        {/* Map Type Toggle */}
+        <div className="absolute top-4 left-4 flex bg-white/95 backdrop-blur-sm p-1 rounded-full shadow-lg border border-gray-200 z-[400]">
+          <button
+            onClick={() => setMapMode("2d")}
+            className={`px-3 py-1.5 flex items-center gap-1.5 text-xs font-semibold rounded-full transition-all ${mapMode === "2d" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            <MapIcon className="w-3.5 h-3.5" /> 2D Map
+          </button>
+          <button
+            onClick={() => setMapMode("3d")}
+            className={`px-3 py-1.5 flex items-center gap-1.5 text-xs font-semibold rounded-full transition-all ${mapMode === "3d" ? "bg-blue-600 text-white shadow" : "text-muted-foreground hover:text-foreground"}`}
+          >
+            <GlobeIcon className="w-3.5 h-3.5" /> 3D Globe
+          </button>
+        </div>
 
         {/* Live tracking toggle */}
         <div className="absolute top-4 right-4 flex flex-col gap-2 z-[400]">

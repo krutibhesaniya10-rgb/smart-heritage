@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card"
 import CrowdPredictionChart from "@/components/heritage/crowd-prediction-chart"
 import ImageGallery from "@/components/heritage/image-gallery"
 import { heritagePlaces } from "@/lib/heritage-data"
+import PanoViewerTrigger from "@/components/virtual-tour/pano-viewer-trigger"
 
 export async function generateStaticParams() {
   return heritagePlaces.map(p => ({ id: p.id }))
@@ -176,10 +177,14 @@ export default async function HeritageDetailPage({ params }: { params: Promise<{
                       <Camera className="w-4 h-4 mr-2" />Add to Trip Planner
                     </Button>
                   </Link>
+                  <PanoViewerTrigger 
+                    imageUrl={place.panoImage} 
+                    title={place.name} 
+                  />
                   {place.panorama && (
                     <a href={place.panorama} target="_blank" rel="noreferrer" className="block">
-                      <Button variant="outline" className="w-full border-amber-300 text-amber-700 hover:bg-amber-50">
-                        360° View on Mapillary
+                      <Button variant="ghost" className="w-full text-xs text-muted-foreground hover:text-heritage-clay">
+                        Alternative Mapillary 360° View ↗
                       </Button>
                     </a>
                   )}

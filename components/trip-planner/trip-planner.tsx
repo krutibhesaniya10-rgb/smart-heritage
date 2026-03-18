@@ -23,7 +23,8 @@ import {
   type NearbyRecommendation
 } from "@/lib/heritage-data"
 import RouteMap from "./route-map"
-import PanoramaViewer from "./panorama-viewer"
+import PlaceCard from "./place-card"
+import Viewer360Modal from "./viewer-360-modal"
 
 const categories = ["All", "Temple", "Fort", "Palace", "Museum", "Monument", "Archaeological Site", "Stepwell"]
 const regions = ["All", "Gujarat", "Rajasthan"]
@@ -83,6 +84,9 @@ export default function TripPlanner() {
           category: "Starting Point",
           image: "/images/virtual-tour.jpg", // placeholder
           images: [],
+          state: "Current",
+          city: "Location",
+          bestTime: "Anytime",
           duration: "-",
           entryFee: "-",
           timings: "-",
@@ -298,75 +302,15 @@ export default function TripPlanner() {
                   </div>
 
                   {/* Places Grid */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     {filteredPlaces.map(place => (
-                      <Card
+                      <PlaceCard
                         key={place.id}
-                        className={`overflow-hidden cursor-pointer transition-all hover:shadow-lg group ${isSelected(place.id)
-                          ? "ring-2 ring-[#5e3417] bg-[#f9edd2]/50"
-                          : ""
-                          }`}
-                        onClick={() => togglePlace(place)}
-                      >
-                        <div className="relative h-36">
-                          <Image src={place.image} alt={place.name} fill className="object-cover group-hover:scale-105 transition-transform duration-500" />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-
-                          {isSelected(place.id) && (
-                            <div className="absolute inset-0 bg-[#5e3417]/30 flex items-center justify-center animate-fade-in">
-                              <div className="w-12 h-12 rounded-full bg-[#5e3417] flex items-center justify-center shadow-lg">
-                                <Check className="w-6 h-6 text-white" />
-                              </div>
-                            </div>
-                          )}
-
-                          <div className="absolute bottom-3 left-3 right-3">
-                            <h3 className="font-bold text-white text-sm drop-shadow-lg">{place.name}</h3>
-                            <div className="flex items-center gap-2 mt-1">
-                              <span className="text-white/80 text-xs flex items-center gap-1">
-                                <MapPin className="w-3 h-3" />
-                                {place.region}
-                              </span>
-                              <span className="text-white/80 text-xs flex items-center gap-1">
-                                <Star className="w-3 h-3 fill-yellow-400 text-yellow-400" />
-                                {place.rating}
-                              </span>
-                            </div>
-                          </div>
-
-                          <span className="absolute top-3 right-3 px-2 py-0.5 rounded-full bg-white/90 text-[10px] font-medium text-[#5e3417]">
-                            {place.category}
-                          </span>
-
-                          {/* 360° badge */}
-                          {place.panorama && (
-                            <button
-                              className="absolute top-3 left-3 px-2 py-1 rounded-full bg-black/60 text-white text-[10px] font-medium flex items-center gap-1 hover:bg-black/80 transition-colors"
-                              onClick={(e) => {
-                                e.stopPropagation()
-                                setPanoramaPlace(place)
-                              }}
-                            >
-                              <Eye className="w-3 h-3" />
-                              360°
-                            </button>
-                          )}
-                        </div>
-
-                        <CardContent className="p-3">
-                          <p className="text-xs text-muted-foreground line-clamp-2 mb-2">{place.description}</p>
-                          <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
-                            <span className="flex items-center gap-1">
-                              <Clock className="w-3 h-3" />
-                              {place.duration}
-                            </span>
-                            <span className="flex items-center gap-1">
-                              <Building2 className="w-3 h-3" />
-                              {place.entryFee}
-                            </span>
-                          </div>
-                        </CardContent>
-                      </Card>
+                        place={place}
+                        isSelected={isSelected(place.id)}
+                        onToggle={togglePlace}
+                        onView360={setPanoramaPlace}
+                      />
                     ))}
                   </div>
 
@@ -605,13 +549,13 @@ export default function TripPlanner() {
                                       </div>
                                       {place.panorama && (
                                         <button
-                                          className="absolute bottom-1 right-1 px-2 py-0.5 rounded bg-black/60 text-white text-[9px] font-medium flex items-center gap-1 hover:bg-black/80 transition-colors"
+                                          className="absolute bottom-1 right-1 px-2 py-1 rounded bg-black/60 text-white text-[10px] font-medium flex items-center gap-1.5 hover:bg-[#5e3417] transition-all"
                                           onClick={(e) => {
                                             e.stopPropagation()
                                             setPanoramaPlace(place)
                                           }}
                                         >
-                                          <Eye className="w-3 h-3" />
+                                          <Eye className="w-3.5 h-3.5" />
                                           360°
                                         </button>
                                       )}
@@ -779,11 +723,9 @@ export default function TripPlanner() {
         </div>
       </section>
 
-      {/* 360° Google Street View Modal */}
-      <PanoramaViewer
-        lat={panoramaPlace?.lat || 0}
-        lng={panoramaPlace?.lng || 0}
-        title={panoramaPlace?.name || ""}
+      {/* 360° Immersive Viewer Modal */}
+      <Viewer360Modal
+        place={panoramaPlace}
         isOpen={!!panoramaPlace}
         onClose={() => setPanoramaPlace(null)}
       />

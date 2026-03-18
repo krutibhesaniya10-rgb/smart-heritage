@@ -11,6 +11,7 @@ export interface HeritagePlace {
   image: string
   images: string[]       // gallery
   panorama?: string      // Mapillary 360 embed URL
+  panoImage?: string     // High-res equirectangular 360 JPEG
   duration: string       // recommended visit duration
   entryFee: string
   timings: string
@@ -40,6 +41,7 @@ const gujaratPlaces: HeritagePlace[] = [
     image: "https://images.unsplash.com/photo-1687109168178-7a8dfae7ccce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8UmFuaSUyMGtpJTIwVmF2JTIwUGF0YW4lMjBzdGVwd2VsbHxlbnwwfHx8fDE3NzM3NTI4NDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
     images: ["https://images.unsplash.com/photo-1687109168178-7a8dfae7ccce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8UmFuaSUyMGtpJTIwVmF2JTIwUGF0YW4lMjBzdGVwd2VsbHxlbnwwfHx8fDE3NzM3NTI4NDN8MA&ixlib=rb-4.1.0&q=80&w=1080", "https://images.unsplash.com/photo-1708172143882-fc766c585320?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8UmFuaSUyMGtpJTIwVmF2JTIwUGF0YW4lMjBzdGVwd2VsbHxlbnwwfHx8fDE3NzM3NTI4NDN8MA&ixlib=rb-4.1.0&q=80&w=1080", "https://images.unsplash.com/photo-1645335585440-3bd5665f0705?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8UmFuaSUyMGtpJTIwVmF2JTIwUGF0YW4lMjBzdGVwd2VsbHxlbnwwfHx8fDE3NzM3NTI4NDN8MA&ixlib=rb-4.1.0&q=80&w=1080"],
     panorama: "https://www.mapillary.com/app/?lat=23.8589&lng=72.1016&z=17&focus=map&menu=false",
+    panoImage: "https://upload.wikimedia.org/wikipedia/commons/e/e0/360_panorama_of_interior_of_Saint_John_the_Baptist_Church_in_Budapest.jpg",
     duration: "1-2 hours",
     entryFee: "₹40 (Indians) / ₹600 (Foreigners)",
     timings: "8:00 AM – 6:00 PM",
@@ -60,6 +62,7 @@ const gujaratPlaces: HeritagePlace[] = [
     image: "https://images.unsplash.com/photo-1609151745346-c624e507baa2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8Q2hhbXBhbmVyJTIwUGF2YWdhZGglMjBsYW5kbWFya3xlbnwwfHx8fDE3NzM3NTI4NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
     images: ["https://images.unsplash.com/photo-1609151745346-c624e507baa2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8Q2hhbXBhbmVyJTIwUGF2YWdhZGglMjBsYW5kbWFya3xlbnwwfHx8fDE3NzM3NTI4NDR8MA&ixlib=rb-4.1.0&q=80&w=1080", "https://images.unsplash.com/photo-1664719877542-93ffa163d428?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8Q2hhbXBhbmVyJTIwUGF2YWdhZGglMjBsYW5kbWFya3xlbnwwfHx8fDE3NzM3NTI4NDR8MA&ixlib=rb-4.1.0&q=80&w=1080", "https://images.unsplash.com/photo-1635931927745-03db23cd8bd2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8Q2hhbXBhbmVyJTIwUGF2YWdhZGglMjBsYW5kbWFya3xlbnwwfHx8fDE3NzM3NTI4NDR8MA&ixlib=rb-4.1.0&q=80&w=1080"],
     panorama: "https://www.mapillary.com/app/?lat=22.4833&lng=73.5333&z=17&focus=map&menu=false",
+    panoImage: "https://pchen66.github.io/panolens.js/examples/asset/textures/equirectangular/tunnel.jpg",
     duration: "3-4 hours",
     entryFee: "₹40 (Indians) / ₹600 (Foreigners)",
     timings: "8:00 AM – 6:00 PM",
@@ -120,6 +123,7 @@ const gujaratPlaces: HeritagePlace[] = [
     image: "https://plus.unsplash.com/premium_photo-1697730467431-323d86486a4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8U29tbmF0aCUyMFRlbXBsZSUyMEd1amFyYXQlMjBsYW5kbWFya3xlbnwwfHx8fDE3NzM3NTI4NDl8MA&ixlib=rb-4.1.0&q=80&w=1080",
     images: ["https://plus.unsplash.com/premium_photo-1697730467431-323d86486a4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8U29tbmF0aCUyMFRlbXBsZSUyMEd1amFyYXQlMjBsYW5kbWFya3xlbnwwfHx8fDE3NzM3NTI4NDl8MA&ixlib=rb-4.1.0&q=80&w=1080", "https://images.unsplash.com/photo-1747487501299-d95d65c742a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8U29tbmF0aCUyMFRlbXBsZSUyMEd1amFyYXQlMjBsYW5kbWFya3xlbnwwfHx8fDE3NzM3NTI4NDl8MA&ixlib=rb-4.1.0&q=80&w=1080", "https://images.unsplash.com/photo-1650868469306-3b9a0a198945?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8U29tbmF0aCUyMFRlbXBsZSUyMEd1amFyYXQlMjBsYW5kbWFya3xlbnwwfHx8fDE3NzM3NTI4NDl8MA&ixlib=rb-4.1.0&q=80&w=1080"],
     panorama: "https://www.mapillary.com/app/?lat=20.8880&lng=70.4010&z=17&focus=map&menu=false",
+    panoImage: "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin/assets/test-1.jpg",
     duration: "2 hours",
     entryFee: "Free",
     timings: "6:00 AM – 9:30 PM",
@@ -246,6 +250,7 @@ const rajasthanPlaces: HeritagePlace[] = [
     image: "https://plus.unsplash.com/premium_photo-1661963054563-ce928e477ff3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8QW1iZXIlMjBGb3J0JTIwSmFpcHVyfGVufDB8fHx8MTc3Mzc1Mjg1OXww&ixlib=rb-4.1.0&q=80&w=1080",
     images: ["https://plus.unsplash.com/premium_photo-1661963054563-ce928e477ff3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8QW1iZXIlMjBGb3J0JTIwSmFpcHVyfGVufDB8fHx8MTc3Mzc1Mjg1OXww&ixlib=rb-4.1.0&q=80&w=1080", "https://images.unsplash.com/photo-1599661046827-dacff0c0f09a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8Mnx8QW1iZXIlMjBGb3J0JTIwSmFpcHVyfGVufDB8fHx8MTc3Mzc1Mjg1OXww&ixlib=rb-4.1.0&q=80&w=1080", "https://images.unsplash.com/photo-1649073868642-bcbbd06239d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8M3x8QW1iZXIlMjBGb3J0JTIwSmFpcHVyfGVufDB8fHx8MTc3Mzc1Mjg1OXww&ixlib=rb-4.1.0&q=80&w=1080"],
     panorama: "https://www.mapillary.com/app/?lat=26.9855&lng=75.8513&z=17&focus=map&menu=false",
+    panoImage: "https://cdn.jsdelivr.net/npm/@photo-sphere-viewer/gallery-plugin/assets/test-1.jpg",
     duration: "2-3 hours",
     entryFee: "₹100 (Indians) / ₹500 (Foreigners)",
     timings: "8:00 AM – 5:30 PM",
