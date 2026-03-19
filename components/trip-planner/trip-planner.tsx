@@ -547,16 +547,17 @@ export default function TripPlanner() {
                                       <div className="absolute top-1 left-1 w-7 h-7 rounded-full bg-[#5e3417] text-white text-xs font-bold flex items-center justify-center">
                                         {idx + 1}
                                       </div>
-                                      {place.panorama && (
+                                      {place.panoImage && (
                                         <button
-                                          className="absolute bottom-1 right-1 px-2 py-1 rounded bg-black/60 text-white text-[10px] font-medium flex items-center gap-1.5 hover:bg-[#5e3417] transition-all"
+                                          className="absolute bottom-1.5 right-1.5 px-2.5 py-1.5 rounded-lg bg-black/70 text-white text-[10px] font-bold uppercase tracking-wider flex items-center gap-2 hover:bg-[#5e3417] transition-all backdrop-blur-md border border-white/10 shadow-lg group/pano"
                                           onClick={(e) => {
                                             e.stopPropagation()
                                             setPanoramaPlace(place)
                                           }}
                                         >
-                                          <Eye className="w-3.5 h-3.5" />
-                                          360°
+                                          <Eye className="w-3.5 h-3.5 group-hover/pano:animate-pulse" />
+                                          <span className="hidden sm:inline">View 360°</span>
+                                          <span className="sm:hidden">360°</span>
                                         </button>
                                       )}
                                     </div>
@@ -618,16 +619,27 @@ export default function TripPlanner() {
                                       <p className="text-[10px] font-semibold text-[#8c623b] uppercase tracking-wider mb-2">
                                         📍 Nearby Suggestions
                                       </p>
-                                      <div className="flex flex-wrap gap-2">
+                                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                                         {place.recommendations.map(rec => (
                                           <div
                                             key={rec.id}
-                                            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-full border text-xs font-medium ${recTypeColor[rec.type]}`}
+                                            className={`flex flex-col gap-1.5 p-1.5 rounded-xl border transition-all hover:shadow-md ${recTypeColor[rec.type]}`}
                                           >
-                                            {recTypeIcon[rec.type]}
-                                            {rec.name}
-                                            <Star className="w-2.5 h-2.5 fill-current opacity-60" />
-                                            <span className="opacity-60">{rec.rating}</span>
+                                            <div className="relative aspect-video rounded-lg overflow-hidden flex-shrink-0">
+                                              <Image src={rec.image} alt={rec.name} fill className="object-cover" />
+                                            </div>
+                                            <div className="px-1 py-0.5">
+                                              <p className="font-bold text-[10px] leading-tight mb-1 truncate">{rec.name}</p>
+                                              <div className="flex items-center justify-between">
+                                                <div className="flex items-center gap-1 opacity-80">
+                                                  {recTypeIcon[rec.type]}
+                                                </div>
+                                                <div className="flex items-center gap-0.5 text-[9px] font-bold">
+                                                  <Star className="w-2 h-2 fill-current" />
+                                                  {rec.rating}
+                                                </div>
+                                              </div>
+                                            </div>
                                           </div>
                                         ))}
                                       </div>
