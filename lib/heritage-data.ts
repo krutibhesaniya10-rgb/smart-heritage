@@ -558,7 +558,57 @@ export interface DayPlan {
   totalTravelTime: string
 }
 
-export function generateItinerary(selectedPlaces: HeritagePlace[], startDate?: Date): DayPlan[] {
+export async function getRealDistanceAndDuration(lat1: number, lng1: number, lat2: number, lng2: number) {
+  try {
+    if (!lat1 || !lng1 || !lat2 || !lng2) {
+      throw new Error("Invalid coordinates")
+    }
+
+    console.log(`[Distance API] From: ${lat1},${lng1} To: ${lat2},${lng2}`)
+
+    // 1. Google Distance Matrix API (if key exists)
+    const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
+    if (apiKey) {
+      const gUrl = `https://maps.googleapis.com/maps/api/distancematrix/json?origins=${lat1},${lng1}&destinations=${lat2},${lng2}&key=${apiKey}`
+      const res = await fetch(gUrl)
+      const data = await res.json()
+      if (data.rows?.[0]?.elements?.[0]?.status === "OK") {
+        const element = data.rows[0].elements[0]
+        return {
+          distanceKm: element.distance.value / 1000,
+          durationString: element.duration.text
+        }
+      }
+    }
+
+    // 2. OSRM Free API (Real road distance fallback)
+    const osrmUrl = `https://router.project-osrm.org/route/v1/driving/${lng1},${lat1};${lng2},${lat2}?overview=false`
+    const res = await fetch(osrmUrl)
+    const data = await res.json()
+    if (data.code === "Ok" && data.routes?.length > 0) {
+      const route = data.routes[0]
+      const distanceKm = route.distance / 1000
+      const durationMins = Math.round(route.duration / 60)
+      const durationString = durationMins < 60 
+        ? `${durationMins} min` 
+        : `${Math.floor(durationMins / 60)}h ${durationMins % 60}m`
+
+      return { distanceKm, durationString }
+    }
+  } catch (err) {
+    console.warn("[Distance API] External API failed, falling back to Haversine:", err)
+  }
+
+  // 3. Last Resort: Haversine straight-line distance
+  const distanceKm = calculateDistance(lat1, lng1, lat2, lng2)
+  return {
+    distanceKm,
+    durationString: getTravelTime(distanceKm)
+  }
+}
+
+export async function generateItinerary(selectedPlaces: HeritagePlace[], startDate?: Date): Promise<DayPlan[]> {
+  // Optimize order locally using straight-line to avoid slamming the API too much
   const optimized = optimizeRoute(selectedPlaces)
   const maxPerDay = 3
   const days: DayPlan[] = []
@@ -567,20 +617,39 @@ export function generateItinerary(selectedPlaces: HeritagePlace[], startDate?: D
     const dayPlaces = optimized.slice(d * maxPerDay, d * maxPerDay + maxPerDay)
     let totalDist = 0
 
-    const enriched = dayPlaces.map((place, idx) => {
+    const enriched: DayPlan["places"] = []
+
+    for (let idx = 0; idx < dayPlaces.length; idx++) {
+      const place = dayPlaces[idx]
       const recs = nearbyRecommendations.filter(r => r.nearbyPlaceId === place.id)
-      if (idx === 0) return { ...place, recommendations: recs }
-      const prev = dayPlaces[idx - 1]
-      const dist = calculateDistance(prev.lat, prev.lng, place.lat, place.lng)
-      totalDist += dist
-      return { ...place, travelTimeFromPrev: getTravelTime(dist), distanceFromPrev: `${dist.toFixed(1)} km`, recommendations: recs }
-    })
+
+      if (idx === 0) {
+        enriched.push({ ...place, recommendations: recs })
+      } else {
+        const prev = dayPlaces[idx - 1]
+        const { distanceKm, durationString } = await getRealDistanceAndDuration(prev.lat, prev.lng, place.lat, place.lng)
+        
+        totalDist += distanceKm
+        enriched.push({
+          ...place,
+          travelTimeFromPrev: durationString,
+          distanceFromPrev: `${distanceKm.toFixed(1)} km`,
+          recommendations: recs
+        })
+      }
+    }
 
     const date = startDate
       ? new Date(startDate.getTime() + d * 86400000).toLocaleDateString('en-IN', { weekday: 'long', day: 'numeric', month: 'short' })
       : undefined
 
-    days.push({ day: d + 1, date, places: enriched, totalDistance: `${totalDist.toFixed(1)} km`, totalTravelTime: getTravelTime(totalDist) })
+    days.push({ 
+      day: d + 1, 
+      date, 
+      places: enriched, 
+      totalDistance: `${totalDist.toFixed(1)} km`, 
+      totalTravelTime: getTravelTime(totalDist) 
+    })
   }
   return days
 }

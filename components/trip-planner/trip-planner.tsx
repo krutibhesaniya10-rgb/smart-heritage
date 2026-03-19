@@ -19,6 +19,7 @@ import {
   generateItinerary,
   calculateDistance,
   getTravelTime,
+  getRealDistanceAndDuration,
   type HeritagePlace,
   type DayPlan,
   type NearbyRecommendation
@@ -59,6 +60,9 @@ export default function TripPlanner() {
 
   // 360Â° viewer state
   const [panoramaPlace, setPanoramaPlace] = useState<HeritagePlace | null>(null)
+
+  // Async generation state
+  const [isGenerating, setIsGenerating] = useState(false)
 
   // Drag reorder state
   const [dragIdx, setDragIdx] = useState<number | null>(null)
@@ -124,11 +128,13 @@ export default function TripPlanner() {
         setSelectedPlaces(newPlaces)
         setIsLocating(false)
 
-        setTimeout(() => {
-          const plan = generateItinerary(newPlaces)
+        setTimeout(async () => {
+          setIsGenerating(true)
+          const plan = await generateItinerary(newPlaces)
           setItinerary(plan)
           setShowItinerary(true)
           setExpandedDay(1)
+          setIsGenerating(false)
         }, 100)
       },
       () => {
@@ -158,19 +164,23 @@ export default function TripPlanner() {
 
   const isSelected = (id: string) => selectedPlaces.some(p => p.id === id)
 
-  const handleGenerate = () => {
+  const handleGenerate = async () => {
     if (selectedPlaces.length >= 3) {
-      const plan = generateItinerary(selectedPlaces)
+      setIsGenerating(true)
+      const plan = await generateItinerary(selectedPlaces)
       setItinerary(plan)
       setShowItinerary(true)
       setExpandedDay(1)
+      setIsGenerating(false)
     }
   }
 
-  const handleRegenerate = () => {
-    const plan = generateItinerary(selectedPlaces)
+  const handleRegenerate = async () => {
+    setIsGenerating(true)
+    const plan = await generateItinerary(selectedPlaces)
     setItinerary(plan)
     setExpandedDay(1)
+    setIsGenerating(false)
   }
 
   const resetPlanner = () => {
@@ -191,10 +201,12 @@ export default function TripPlanner() {
     setSelectedPlaces(prev => prev.filter(p => p.id !== placeId))
     // Regenerate if in itinerary view
     if (showItinerary && selectedPlaces.length > 3) {
-      setTimeout(() => {
+      setTimeout(async () => {
         const newPlaces = selectedPlaces.filter(p => p.id !== placeId)
-        const plan = generateItinerary(newPlaces)
+        setIsGenerating(true)
+        const plan = await generateItinerary(newPlaces)
         setItinerary(plan)
+        setIsGenerating(false)
       }, 100)
     }
   }
@@ -212,17 +224,28 @@ export default function TripPlanner() {
   }
   const handleDragEnd = () => setDragIdx(null)
 
-  // Total stats
-  const totalDistance = useMemo(() => {
-    if (selectedPlaces.length < 2) return 0
-    let total = 0
-    for (let i = 1; i < selectedPlaces.length; i++) {
-      total += calculateDistance(
-        selectedPlaces[i - 1].lat, selectedPlaces[i - 1].lng,
-        selectedPlaces[i].lat, selectedPlaces[i].lng
-      )
+  // Total stats (real road distance)
+  const [totalDistance, setTotalDistance] = useState(0)
+
+  useEffect(() => {
+    let isActive = true
+    async function fetchTotalDistance() {
+      if (selectedPlaces.length < 2) {
+        if (isActive) setTotalDistance(0)
+        return
+      }
+      let total = 0
+      for (let i = 1; i < selectedPlaces.length; i++) {
+        const { distanceKm } = await getRealDistanceAndDuration(
+          selectedPlaces[i - 1].lat, selectedPlaces[i - 1].lng,
+          selectedPlaces[i].lat, selectedPlaces[i].lng
+        )
+        total += distanceKm
+      }
+      if (isActive) setTotalDistance(total)
     }
-    return total
+    fetchTotalDistance()
+    return () => { isActive = false }
   }, [selectedPlaces])
 
   // Get all unique itinerary places for map
@@ -425,11 +448,15 @@ export default function TripPlanner() {
                         <Button
                           size="lg"
                           onClick={handleGenerate}
-                          disabled={selectedPlaces.length < 3}
+                          disabled={selectedPlaces.length < 3 || isGenerating}
                           className="w-full bg-[#5e3417] hover:bg-[#8c623b] text-white rounded-xl disabled:opacity-50 transition-all hover:shadow-lg"
                         >
-                          <Sparkles className="w-4 h-4 mr-2" />
-                          Generate Itinerary
+                          {isGenerating ? (
+                            <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                          ) : (
+                            <Sparkles className="w-4 h-4 mr-2" />
+                          )}
+                          {isGenerating ? "Calculating Route..." : "Generate Itinerary"}
                         </Button>
 
                         {selectedPlaces.length > 0 && selectedPlaces.length < 3 && (
@@ -475,10 +502,15 @@ export default function TripPlanner() {
                     <Button
                       variant="outline"
                       onClick={handleRegenerate}
+                      disabled={isGenerating}
                       className="border-[#d4c4a8] text-[#5e3417]"
                     >
-                      <RefreshCcw className="w-4 h-4 mr-2" />
-                      Re-optimize
+                      {isGenerating ? (
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      ) : (
+                        <RefreshCcw className="w-4 h-4 mr-2" />
+                      )}
+                      {isGenerating ? "Calculating..." : "Re-optimize"}
                     </Button>
                     <Button
                       variant="outline"
