@@ -1,8 +1,9 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useEffect, useMemo, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
+import { useRouter, useSearchParams } from "next/navigation"
 import {
   MapPin, Check, X, Calendar, Clock, Navigation, Car,
   ChevronRight, ChevronDown, ChevronUp, Route, Info, AlertCircle, Sparkles,
@@ -56,7 +57,7 @@ export default function TripPlanner() {
   const [expandedDay, setExpandedDay] = useState<number | null>(1)
   const [selectedMapPlace, setSelectedMapPlace] = useState<string | null>(null)
 
-  // 360° viewer state
+  // 360Â° viewer state
   const [panoramaPlace, setPanoramaPlace] = useState<HeritagePlace | null>(null)
 
   // Drag reorder state
@@ -64,6 +65,22 @@ export default function TripPlanner() {
 
   // Auto locate state
   const [isLocating, setIsLocating] = useState(false)
+
+  const searchParams = useSearchParams()
+  const router = useRouter()
+
+  useEffect(() => {
+    const addPlaceId = searchParams.get("addPlaceId")
+    if (!addPlaceId) return
+
+    const place = heritagePlaces.find((p) => p.id === addPlaceId)
+    if (place) {
+      setSelectedPlaces((prev) => (prev.some((p) => p.id === place.id) ? prev : [...prev, place]))
+    }
+
+    // Clean URL so the place is not re-added on refresh/back
+    router.replace("/trip-planner")
+  }, [router, searchParams])
 
   const handleAutoPlan = () => {
     if (!navigator.geolocation) {
@@ -255,7 +272,7 @@ export default function TripPlanner() {
                     <MapPin className="w-4 h-4 text-muted-foreground" />
                     <input
                       type="text"
-                      placeholder="Search places, regions…"
+                      placeholder="Search places, regionsâ€¦"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="flex-1 bg-transparent outline-none text-sm text-foreground placeholder:text-muted-foreground"
@@ -451,7 +468,7 @@ export default function TripPlanner() {
                       Your Trip Itinerary
                     </h2>
                     <p className="text-muted-foreground mt-1 ml-[52px]">
-                      {selectedPlaces.length} places • {itinerary.length} day{itinerary.length > 1 ? 's' : ''} • Optimized route
+                      {selectedPlaces.length} places â€¢ {itinerary.length} day{itinerary.length > 1 ? 's' : ''} â€¢ Optimized route
                     </p>
                   </div>
                   <div className="flex gap-2 flex-wrap">
@@ -497,7 +514,7 @@ export default function TripPlanner() {
                               <span className="flex items-center gap-2">
                                 <Calendar className="w-5 h-5" />
                                 Day {day.day}
-                                {day.date && <span className="text-white/70 text-sm font-normal">• {day.date}</span>}
+                                {day.date && <span className="text-white/70 text-sm font-normal">â€¢ {day.date}</span>}
                               </span>
                               <div className="flex items-center gap-4 text-sm font-normal">
                                 <span className="flex items-center gap-1">
@@ -556,7 +573,7 @@ export default function TripPlanner() {
                                           }}
                                         >
                                           <Eye className="w-3.5 h-3.5" />
-                                          360°
+                                          360Â°
                                         </button>
                                       )}
                                     </div>
@@ -566,7 +583,7 @@ export default function TripPlanner() {
                                           <h4 className="font-bold text-foreground mb-0.5">{place.name}</h4>
                                           <p className="text-xs text-muted-foreground flex items-center gap-1">
                                             <MapPin className="w-3 h-3" />
-                                            {place.region} • {place.category}
+                                            {place.region} â€¢ {place.category}
                                           </p>
                                         </div>
                                         <Button
@@ -616,7 +633,7 @@ export default function TripPlanner() {
                                   {place.recommendations && place.recommendations.length > 0 && (
                                     <div className="mt-3 pt-3 border-t border-[#d4c4a8]/50">
                                       <p className="text-[10px] font-semibold text-[#8c623b] uppercase tracking-wider mb-2">
-                                        📍 Nearby Suggestions
+                                        ðŸ“ Nearby Suggestions
                                       </p>
                                       <div className="flex flex-wrap gap-2">
                                         {place.recommendations.map(rec => (
@@ -705,10 +722,10 @@ export default function TripPlanner() {
                             <div>
                               <h3 className="font-semibold text-emerald-800 text-sm">Travel Tips</h3>
                               <ul className="text-emerald-700 mt-1.5 space-y-1 text-xs">
-                                <li>🌅 Start early to avoid heat and crowds</li>
-                                <li>💧 Carry water and comfortable footwear</li>
-                                <li>📱 Download offline maps for rural areas</li>
-                                <li>🎫 Book tickets online to save time</li>
+                                <li>ðŸŒ… Start early to avoid heat and crowds</li>
+                                <li>ðŸ’§ Carry water and comfortable footwear</li>
+                                <li>ðŸ“± Download offline maps for rural areas</li>
+                                <li>ðŸŽ« Book tickets online to save time</li>
                               </ul>
                             </div>
                           </div>
@@ -723,7 +740,7 @@ export default function TripPlanner() {
         </div>
       </section>
 
-      {/* 360° Immersive Viewer Modal */}
+      {/* 360Â° Immersive Viewer Modal */}
       <Viewer360Modal
         place={panoramaPlace}
         isOpen={!!panoramaPlace}

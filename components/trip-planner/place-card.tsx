@@ -1,7 +1,7 @@
 "use client"
 
 import Image from "next/image"
-import { MapPin, Star, Clock, Building2, Eye, Check } from "lucide-react"
+import { Building2, Check, Clock, Eye, MapPin, Star } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { HeritagePlace } from "@/lib/heritage-data"
 
@@ -21,11 +21,11 @@ export default function PlaceCard({ place, isSelected, onToggle, onView360 }: Pl
       onClick={() => onToggle(place)}
     >
       <div className="relative h-48 sm:h-56">
-        <Image 
-          src={place.image} 
-          alt={place.name} 
-          fill 
-          className="object-cover group-hover:scale-105 transition-transform duration-700" 
+        <Image
+          src={place.image}
+          alt={place.name}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-700"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
 
@@ -43,8 +43,11 @@ export default function PlaceCard({ place, isSelected, onToggle, onView360 }: Pl
           <span className="px-2.5 py-1 rounded-full bg-white/90 backdrop-blur-sm text-[10px] font-bold text-[#5e3417] uppercase tracking-wider shadow-sm">
             {place.category}
           </span>
-          
+
           <button
+            type="button"
+            aria-label="View 360° panorama"
+            suppressHydrationWarning
             className="p-2.5 rounded-full bg-black/40 hover:bg-[#5e3417] text-white backdrop-blur-md transition-all duration-300 hover:scale-110 shadow-lg border border-white/10"
             onClick={(e) => {
               e.stopPropagation()
@@ -72,9 +75,7 @@ export default function PlaceCard({ place, isSelected, onToggle, onView360 }: Pl
       </div>
 
       <CardContent className="p-4 bg-white">
-        <p className="text-xs text-muted-foreground line-clamp-2 mb-4 leading-relaxed">
-          {place.description}
-        </p>
+        <p className="text-xs text-muted-foreground line-clamp-2 mb-4 leading-relaxed">{place.description}</p>
         <div className="flex items-center justify-between pt-3 border-t border-slate-100">
           <div className="flex gap-4">
             <span className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600">
@@ -83,7 +84,7 @@ export default function PlaceCard({ place, isSelected, onToggle, onView360 }: Pl
             </span>
             <span className="flex items-center gap-1.5 text-[11px] font-semibold text-slate-600">
               <Building2 className="w-3.5 h-3.5 text-[#8c623b]" />
-              {place.entryFee.split(' (')[0]}
+              {place.entryFee.split(" (")[0]}
             </span>
           </div>
           <div className="text-[10px] font-bold text-[#5e3417] uppercase tracking-tighter opacity-40">
