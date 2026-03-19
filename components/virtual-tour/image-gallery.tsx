@@ -6,13 +6,32 @@ import Link from "next/link"
 import { X, ChevronLeft, ChevronRight, ZoomIn, MapPin, Clock, Info, Star, Eye, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import raniKiVavThumb from "@/images/rani_ki_vav.jpg"
+import champanerPavagadhThumb from "@/images/champaner_pavagadh.jpg"
+import dholaviraThumb from "@/images/dholavira.jpg"
+import lothalThumb from "@/images/Lothal.jpg"
+import somnathThumb from "@/images/somnath.jpg"
+import dwarkadhishThumb from "@/images/dwarkadhish.jpg"
+import modheraSunTempleThumb from "@/images/modhera_sun_temple.jpg"
+import adalajStepwellThumb from "@/images/Adalaj Stepwell.jpg"
+import laxmiVilasPalaceThumb from "@/images/lakshmi_vilas_place.jpg"
+import uparkotThumb from "@/images/uparkot.jpg"
+import amberFortThumb from "@/images/Amber-fort.jpg"
+import cityPalaceJaipurThumb from "@/images/City Palace Jaipur.jpg"
+import jantarMantarJaipurThumb from "@/images/Jantar_Mantar_Jaipur.jpg"
+import chittorgarhFortThumb from "@/images/chittorgarh-fort.jpg"
+import mehrangarhFortThumb from "@/images/Mehrangarh_Fort.jpg"
+import jaisalmerFortThumb from "@/images/Jaisalmer Fort.jpg"
+import kumbhalgarhFortThumb from "@/images/Kumbhalgarh Fort.jpg"
+import lakePalaceThumb from "@/images/Lake Palace.jpg"
+import dilwaraTemplesThumb from "@/images/Dilwara Temples.png"
 
 // ── All 20 heritage places with REAL Unsplash images ──
 const galleryItems = [
   // ═══ GUJARAT (10) ═══
   {
     id: "g1",
-    src: "https://images.unsplash.com/photo-1687109168178-7a8dfae7ccce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8UmFuaSUyMGtpJTIwVmF2JTIwUGF0YW4lMjBzdGVwd2VsbHxlbnwwfHx8fDE3NzM3NTI4NDN8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    src: raniKiVavThumb,
     title: "Rani ki Vav",
     description: "A UNESCO World Heritage stepwell in Patan with seven storeys of magnificent sculptures representing the pinnacle of Maru-Gurjara architecture.",
     location: "Patan, Gujarat",
@@ -22,7 +41,7 @@ const galleryItems = [
   },
   {
     id: "g2",
-    src: "https://images.unsplash.com/photo-1609151745346-c624e507baa2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8Q2hhbXBhbmVyJTIwUGF2YWdhZGglMjBsYW5kbWFya3xlbnwwfHx8fDE3NzM3NTI4NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    src: champanerPavagadhThumb,
     title: "Champaner-Pavagadh",
     description: "A UNESCO World Heritage Site pre-Mughal Islamic city with a blend of Hindu-Muslim architecture set among forested hills.",
     location: "Panchmahal, Gujarat",
@@ -32,7 +51,7 @@ const galleryItems = [
   },
   {
     id: "g3",
-    src: "https://plus.unsplash.com/premium_photo-1676285069083-62cc059bc602?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8RGhvbGF2aXJhJTIwR3VqYXJhdHxlbnwwfHx8fDE3NzM3NTI5NDV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    src: dholaviraThumb,
     title: "Dholavira",
     description: "One of the five largest Harappan cities — a UNESCO World Heritage Indus Valley Civilisation site with 5,000-year-old reservoirs and gateways.",
     location: "Kutch, Gujarat",
@@ -42,7 +61,7 @@ const galleryItems = [
   },
   {
     id: "g4",
-    src: "https://plus.unsplash.com/premium_photo-1676285069083-62cc059bc602?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8TG90aGFsJTIwR3VqYXJhdCUyMGxhbmRtYXJrfGVufDB8fHx8MTc3Mzc1Mjg0OHww&ixlib=rb-4.1.0&q=80&w=1080",
+    src: lothalThumb,
     title: "Lothal",
     description: "An ancient Indus Valley port city featuring the world's earliest known dockyard, offering a rare window into 4,000-year-old maritime trade.",
     location: "Ahmedabad, Gujarat",
@@ -52,7 +71,7 @@ const galleryItems = [
   },
   {
     id: "g5",
-    src: "https://plus.unsplash.com/premium_photo-1697730467431-323d86486a4c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8U29tbmF0aCUyMFRlbXBsZSUyMEd1amFyYXQlMjBsYW5kbWFya3xlbnwwfHx8fDE3NzM3NTI4NDl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    src: somnathThumb,
     title: "Somnath Temple",
     description: "One of the twelve sacred Jyotirlinga shrines of Shiva, standing majestically on the Arabian Sea shore — a symbol of India's indomitable spirit.",
     location: "Gir Somnath, Gujarat",
@@ -62,7 +81,7 @@ const galleryItems = [
   },
   {
     id: "g6",
-    src: "https://images.unsplash.com/photo-1717326630036-029bbed12f7b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8RHdhcmthZGhpc2glMjBUZW1wbGUlMjBEd2Fya2ElMjBsYW5kbWFya3xlbnwwfHx8fDE3NzM3NTI4NTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    src: dwarkadhishThumb,
     title: "Dwarkadhish Temple",
     description: "One of the four sacred dhams of Hinduism, the Dwarkadhish Temple is dedicated to Lord Krishna and towers 51.8 metres above the coast.",
     location: "Dwarka, Gujarat",
@@ -72,7 +91,7 @@ const galleryItems = [
   },
   {
     id: "g7",
-    src: "https://images.unsplash.com/photo-1742315600524-a4ade9588af8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8TW9kaGVyYSUyMFN1biUyMFRlbXBsZSUyMGxhbmRtYXJrfGVufDB8fHx8MTc3Mzc1Mjg1M3ww&ixlib=rb-4.1.0&q=80&w=1080",
+    src: modheraSunTempleThumb,
     title: "Modhera Sun Temple",
     description: "A 1026 CE masterpiece of Maru-Gurjara architecture dedicated to Surya — sunlight illuminates the inner sanctum precisely during the equinoxes.",
     location: "Mehsana, Gujarat",
@@ -82,7 +101,7 @@ const galleryItems = [
   },
   {
     id: "g8",
-    src: "https://images.unsplash.com/photo-1741207730591-79ec31061e62?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8QWRhbGFqJTIwU3RlcHdlbGwlMjBBaG1lZGFiYWR8ZW58MHx8fHwxNzczNzUyODU0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+    src: adalajStepwellThumb,
     title: "Adalaj Stepwell",
     description: "A stunning five-storey stepwell blending Hindu and Islamic motifs, with every surface covered in ornate carvings creating a mesmerising underground palace.",
     location: "Ahmedabad, Gujarat",
@@ -92,7 +111,7 @@ const galleryItems = [
   },
   {
     id: "g9",
-    src: "https://images.unsplash.com/photo-1710681849410-0d29f0c66139?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8TGF4bWklMjBWaWxhcyUyMFBhbGFjZSUyMFZhZG9kYXJhfGVufDB8fHx8MTc3Mzc1Mjg1Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+    src: laxmiVilasPalaceThumb,
     title: "Laxmi Vilas Palace",
     description: "Four times the size of Buckingham Palace — a grand Indo-Saracenic residence of the Gaekwad royal family featuring Italian marble and Venetian mosaics.",
     location: "Vadodara, Gujarat",
@@ -102,7 +121,7 @@ const galleryItems = [
   },
   {
     id: "g10",
-    src: "https://images.unsplash.com/photo-1638374574093-7723c1c8f546?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8VXBhcmtvdCUyMEZvcnQlMjBKdW5hZ2FkaHxlbnwwfHx8fDE3NzM3NTI4NTh8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    src: uparkotThumb,
     title: "Uparkot Fort",
     description: "A 2,300-year-old fort perched on a plateau in Junagadh, featuring Buddhist caves, ancient stepwells, cannons, and a mosque. Withstood 16 sieges.",
     location: "Junagadh, Gujarat",
@@ -113,7 +132,7 @@ const galleryItems = [
   // ═══ RAJASTHAN (10) ═══
   {
     id: "r1",
-    src: "https://plus.unsplash.com/premium_photo-1661963054563-ce928e477ff3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8QW1iZXIlMjBGb3J0JTIwSmFpcHVyfGVufDB8fHx8MTc3Mzc1Mjg1OXww&ixlib=rb-4.1.0&q=80&w=1080",
+    src: amberFortThumb,
     title: "Amber Fort",
     description: "A UNESCO World Heritage hilltop fort with Sheesh Mahal (Palace of Mirrors), blending Hindu and Mughal styles, overlooking serene Maota Lake.",
     location: "Jaipur, Rajasthan",
@@ -133,7 +152,7 @@ const galleryItems = [
   },
   {
     id: "r3",
-    src: "https://plus.unsplash.com/premium_photo-1697729447666-c39f50d595ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8Q2l0eSUyMFBhbGFjZSUyMEphaXB1cnxlbnwwfHx8fDE3NzM3NTI4NjJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    src: cityPalaceJaipurThumb,
     title: "City Palace Jaipur",
     description: "The heart of Jaipur's royal heritage — a magnificent blend of Rajput, Mughal, and European styles housing courtyards, museums, and famous silver urns.",
     location: "Jaipur, Rajasthan",
@@ -143,7 +162,7 @@ const galleryItems = [
   },
   {
     id: "r4",
-    src: "https://plus.unsplash.com/premium_photo-1697730309688-cc2a3a573494?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8SmFudGFyJTIwTWFudGFyJTIwSmFpcHVyfGVufDB8fHx8MTc3Mzc1Mjg2NHww&ixlib=rb-4.1.0&q=80&w=1080",
+    src: jantarMantarJaipurThumb,
     title: "Jantar Mantar Jaipur",
     description: "A UNESCO World Heritage astronomical observatory — 19 masonry instruments including the colossal Samrat Yantra sundial, accurate to two seconds.",
     location: "Jaipur, Rajasthan",
@@ -153,7 +172,7 @@ const galleryItems = [
   },
   {
     id: "r5",
-    src: "https://plus.unsplash.com/premium_photo-1697729640715-b4f8b691b9ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8Q2hpdHRvcmdhcmglMjBGb3J0fGVufDB8fHx8MTc3Mzc1Mjg2Nnww&ixlib=rb-4.1.0&q=80&w=1080",
+    src: chittorgarhFortThumb,
     title: "Chittorgarh Fort",
     description: "India's largest fort — a UNESCO World Heritage Site of Rajput valour perched on a 180-metre hill, with palaces, towers, and tales of legendary Jauhar.",
     location: "Chittorgarh, Rajasthan",
@@ -163,7 +182,7 @@ const galleryItems = [
   },
   {
     id: "r6",
-    src: "https://plus.unsplash.com/premium_photo-1697730388194-0f8f7943dbad?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8TWVocmFuZ2FyaCUyMEZvcnQlMjBKb2RocHVyfGVufDB8fHx8MTc3Mzc1Mjg2OHww&ixlib=rb-4.1.0&q=80&w=1080",
+    src: mehrangarhFortThumb,
     title: "Mehrangarh Fort",
     description: "Towering 122 metres above the Blue City with breathtaking views, seven gates, and one of Rajasthan's finest museum collections.",
     location: "Jodhpur, Rajasthan",
@@ -173,7 +192,7 @@ const galleryItems = [
   },
   {
     id: "r7",
-    src: "https://plus.unsplash.com/premium_photo-1723921309309-4d19183297c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8SmFpc2FsbWVyJTIwRm9ydHxlbnwwfHx8fDE3NzM3NTI4Njl8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    src: jaisalmerFortThumb,
     title: "Jaisalmer Fort",
     description: "A living UNESCO World Heritage fort glowing gold in the Thar Desert sun — home to palaces, temples, and 3,000 residents within its ancient walls.",
     location: "Jaisalmer, Rajasthan",
@@ -183,7 +202,7 @@ const galleryItems = [
   },
   {
     id: "r8",
-    src: "https://plus.unsplash.com/premium_photo-1697730385162-fa617cfd46d8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8S3VtYmhhbGdhcmglMjBGb3J0JTIwUmFqYXN0aGFufGVufDB8fHx8MTc3Mzc1Mjg3MXww&ixlib=rb-4.1.0&q=80&w=1080",
+    src: kumbhalgarhFortThumb,
     title: "Kumbhalgarh Fort",
     description: "A UNESCO World Heritage Site with the world's second-longest wall (36 km) across the Aravallis — birthplace of the legendary Maharana Pratap.",
     location: "Rajsamand, Rajasthan",
@@ -193,7 +212,7 @@ const galleryItems = [
   },
   {
     id: "r9",
-    src: "https://plus.unsplash.com/premium_photo-1697730393612-882741d47f0f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8TGFrZSUyMFBhbGFjZSUyMFVkYWlwdXJ8ZW58MHx8fHwxNzczNzUyODczfDA&ixlib=rb-4.1.0&q=80&w=1080",
+    src: lakePalaceThumb,
     title: "Lake Palace",
     description: "Floating like a marble dream on Lake Pichola — a 250-year-old architectural wonder and one of the world's most romantic luxury heritage hotels.",
     location: "Udaipur, Rajasthan",
@@ -203,7 +222,7 @@ const galleryItems = [
   },
   {
     id: "r10",
-    src: "https://images.unsplash.com/photo-1753703986159-7dd19429b1c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3wxMjA3fDB8MXxzZWFyY2h8MXx8RGlsd2FyYSUyMFRlbXBsZXMlMjBNb3VudCUyMEFidXxlbnwwfHx8fDE3NzM3NTI4NzR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+    src: dilwaraTemplesThumb,
     title: "Dilwara Temples",
     description: "Five spectacular 11th–13th century Jain temples with breathtaking white marble carvings — considered the finest marble craftsmanship in the world.",
     location: "Mount Abu, Rajasthan",

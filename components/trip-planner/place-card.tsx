@@ -13,13 +13,13 @@ interface PlaceCardProps {
 }
 
 export default function PlaceCard({ place, isSelected, onToggle, onView360 }: PlaceCardProps) {
-
   return (
     <Card
-      className={`overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-2xl group relative border-2 ${isSelected
-        ? "border-[#5e3417] bg-[#f9edd2]/30 shadow-[0_0_0_4px_rgba(94,52,23,0.15)]"
-        : "border-transparent hover:border-[#d4c4a8] hover:-translate-y-0.5"
-        }`}
+      className={`overflow-hidden cursor-pointer transition-all duration-300 hover:shadow-2xl group relative border-2 ${
+        isSelected
+          ? "border-[#5e3417] bg-[#f9edd2]/30 shadow-[0_0_0_4px_rgba(94,52,23,0.15)]"
+          : "border-transparent hover:border-[#d4c4a8] hover:-translate-y-0.5"
+      }`}
       onClick={() => onToggle(place)}
     >
       {/* ── Image + Overlay Area */}
@@ -32,6 +32,7 @@ export default function PlaceCard({ place, isSelected, onToggle, onView360 }: Pl
           className="object-cover group-hover:scale-105 transition-transform duration-700"
           priority={false}
         />
+
         {/* Gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-black/10" />
 
@@ -53,6 +54,9 @@ export default function PlaceCard({ place, isSelected, onToggle, onView360 }: Pl
 
           {/* Street View 360° button — always available via lat/lng */}
           <button
+            type="button"
+            aria-label={`Open Street View for ${place.name}`}
+            suppressHydrationWarning
             className="group/btn flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-black/55 backdrop-blur-md text-white border border-white/15 text-[10px] font-extrabold uppercase tracking-wider transition-all duration-250 hover:bg-blue-600 hover:border-blue-500 hover:scale-105 hover:shadow-[0_4px_20px_rgba(37,99,235,0.5)] active:scale-95"
             onClick={(e) => {
               e.stopPropagation()
@@ -103,6 +107,8 @@ export default function PlaceCard({ place, isSelected, onToggle, onView360 }: Pl
 
           {/* Street View shortcut in footer */}
           <button
+            type="button"
+            aria-label="Open Street View"
             className="flex items-center gap-1 text-[10px] font-black text-blue-600 uppercase tracking-wider opacity-50 hover:opacity-100 transition-opacity"
             onClick={(e) => {
               e.stopPropagation()
